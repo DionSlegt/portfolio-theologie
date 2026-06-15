@@ -1,0 +1,6 @@
+# Grote mediabestanden – te groot voor GitHub
+Bestanden/Video onderwijssituties/
+Bestanden/Assets/thumbmnials.psd
+**/*.MOV
+**/*.mov
+.DS_Store
