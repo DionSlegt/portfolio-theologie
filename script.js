@@ -100,11 +100,26 @@ const lsUploadLabel = document.getElementById('lsUploadLabel');
 document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
-    const title = card.dataset.title;
-    const video = card.dataset.video;
-    lsTitle.textContent = title;
+    const title   = card.dataset.title;
+    const video   = card.dataset.video;
+    const lesplan = card.dataset.lesplan || '';
+
+    lsTitle.textContent    = title;
     lsNavTitle.textContent = title;
-    lsVideo.src = video;
+    lsVideo.src            = video;
+
+    // Lesplan: automatisch laden als pad bekend is
+    if (lesplan) {
+      lsIframe.src = lesplan;
+      lsIframe.classList.remove('hidden');
+      lsUploadLabel.style.display = 'none';
+    } else {
+      lsIframe.src = '';
+      lsIframe.classList.add('hidden');
+      lsUploadLabel.style.display = '';
+      lsUploadText.textContent = 'Lesplan selecteren (PDF)';
+    }
+
     lsScreen.classList.add('open');
     lsScreen.scrollTop = 0;
     window.scrollTo(0, 0);
