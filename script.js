@@ -86,15 +86,15 @@ document.querySelectorAll('[contenteditable]').forEach(el => {
   el.addEventListener('blur',  () => el.classList.remove('focused'));
 });
 
-// ── LESSITUATIE PANEL ──
-const lsPanel    = document.getElementById('lsPanel');
-const lsBackdrop = document.getElementById('lsBackdrop');
-const lsClose    = document.getElementById('lsClose');
-const lsTitle    = document.getElementById('lsTitle');
-const lsVideo    = document.getElementById('lsVideo');
-const lsFileInput = document.getElementById('lsFileInput');
+// ── LESSITUATIE SCHERM ──
+const lsScreen     = document.getElementById('lsScreen');
+const lsBack       = document.getElementById('lsBack');
+const lsTitle      = document.getElementById('lsTitle');
+const lsNavTitle   = document.getElementById('lsNavTitle');
+const lsVideo      = document.getElementById('lsVideo');
+const lsFileInput  = document.getElementById('lsFileInput');
 const lsUploadText = document.getElementById('lsUploadText');
-const lsIframe   = document.getElementById('lsIframe');
+const lsIframe     = document.getElementById('lsIframe');
 const lsUploadLabel = document.getElementById('lsUploadLabel');
 
 document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
@@ -103,24 +103,24 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
     const title = card.dataset.title;
     const video = card.dataset.video;
     lsTitle.textContent = title;
+    lsNavTitle.textContent = title;
     lsVideo.src = video;
-    lsPanel.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lsScreen.classList.add('open');
+    lsScreen.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
 });
 
-function closeLsPanel() {
-  lsPanel.classList.remove('open');
+function closeLsScreen() {
+  lsScreen.classList.remove('open');
   lsVideo.pause();
   lsVideo.src = '';
-  document.body.style.overflow = '';
 }
 
-lsClose.addEventListener('click', closeLsPanel);
-lsBackdrop.addEventListener('click', closeLsPanel);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLsPanel(); });
+lsBack.addEventListener('click', closeLsScreen);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLsScreen(); });
 
-// Lesplan bestand inladen
+// Lesplan PDF inladen
 lsFileInput.addEventListener('change', () => {
   const file = lsFileInput.files[0];
   if (!file) return;
