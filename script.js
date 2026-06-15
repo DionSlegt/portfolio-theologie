@@ -86,30 +86,51 @@ document.querySelectorAll('[contenteditable]').forEach(el => {
   el.addEventListener('blur',  () => el.classList.remove('focused'));
 });
 
-// ── VIDEO MODAL ──
-const videoModal   = document.getElementById('videoModal');
-const modalVideo   = document.getElementById('modalVideo');
-const modalClose   = document.getElementById('modalClose');
-const modalBackdrop = document.getElementById('modalBackdrop');
+// ── LESSITUATIE PANEL ──
+const lsPanel    = document.getElementById('lsPanel');
+const lsBackdrop = document.getElementById('lsBackdrop');
+const lsClose    = document.getElementById('lsClose');
+const lsTitle    = document.getElementById('lsTitle');
+const lsVideo    = document.getElementById('lsVideo');
+const lsFileInput = document.getElementById('lsFileInput');
+const lsUploadText = document.getElementById('lsUploadText');
+const lsIframe   = document.getElementById('lsIframe');
+const lsUploadLabel = document.getElementById('lsUploadLabel');
 
-document.querySelectorAll('.film-thumb').forEach(thumb => {
-  thumb.addEventListener('click', () => {
-    const src = thumb.dataset.video;
-    modalVideo.src = src;
-    videoModal.classList.add('open');
-    modalVideo.play();
+document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    const title = card.dataset.title;
+    const video = card.dataset.video;
+    lsTitle.textContent = title;
+    lsVideo.src = video;
+    lsPanel.classList.add('open');
+    document.body.style.overflow = 'hidden';
   });
 });
 
-function closeModal() {
-  videoModal.classList.remove('open');
-  modalVideo.pause();
-  modalVideo.src = '';
+function closeLsPanel() {
+  lsPanel.classList.remove('open');
+  lsVideo.pause();
+  lsVideo.src = '';
+  document.body.style.overflow = '';
 }
 
-modalClose.addEventListener('click', closeModal);
-modalBackdrop.addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+lsClose.addEventListener('click', closeLsPanel);
+lsBackdrop.addEventListener('click', closeLsPanel);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLsPanel(); });
+
+// Lesplan bestand inladen
+lsFileInput.addEventListener('change', () => {
+  const file = lsFileInput.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  lsUploadText.textContent = file.name;
+  lsUploadLabel.style.borderStyle = 'solid';
+  lsUploadLabel.style.borderColor = 'var(--blue)';
+  lsIframe.src = url;
+  lsIframe.classList.remove('hidden');
+});
 
 // ── SMOOTH SCROLL voor nav links ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
