@@ -110,7 +110,7 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
 
     // Lesplan: automatisch laden als pad bekend is
     if (lesplan) {
-      lsIframe.src = lesplan;
+      lsIframe.src = lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
       lsIframe.classList.remove('hidden');
       lsUploadLabel.style.display = 'none';
     } else {
