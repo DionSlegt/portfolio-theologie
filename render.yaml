@@ -2,5 +2,5 @@ services:
   - type: web
     name: portfolio-theologie
     runtime: static
-    staticPublishPath: .
+    staticPublishPath: /
     pullRequestPreviewsEnabled: false
