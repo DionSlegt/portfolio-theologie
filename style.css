@@ -553,6 +553,7 @@ h4, h5, h6, strong, b, .nav-logo,
   max-height: 55vh;
   object-fit: contain;
 }
+#lsVideo.hidden { display: none; }
 
 .ls-youtube {
   width: 100%;
