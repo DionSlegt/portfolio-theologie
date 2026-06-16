@@ -123,13 +123,25 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
     }
 
     // Lesplan: automatisch laden als pad bekend is
+    const lsImg = document.getElementById('lsImg');
     if (lesplan) {
-      lsIframe.src = lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
-      lsIframe.classList.remove('hidden');
+      const isImage = /\.(png|jpg|jpeg|webp)$/i.test(lesplan);
       lsUploadLabel.style.display = 'none';
+      if (isImage) {
+        lsIframe.classList.add('hidden');
+        lsIframe.src = '';
+        lsImg.src = lesplan;
+        lsImg.classList.remove('hidden');
+      } else {
+        lsImg.classList.add('hidden');
+        lsImg.src = '';
+        lsIframe.src = lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
+        lsIframe.classList.remove('hidden');
+      }
     } else {
       lsIframe.src = '';
       lsIframe.classList.add('hidden');
+      if (lsImg) { lsImg.classList.add('hidden'); lsImg.src = ''; }
       lsUploadLabel.style.display = '';
       lsUploadText.textContent = 'Lesplan selecteren (PDF)';
     }

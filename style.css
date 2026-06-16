@@ -595,6 +595,13 @@ h4, h5, h6, strong, b, .nav-logo,
 }
 .ls-iframe.hidden { display: none; }
 
+.ls-img {
+  width: 100%;
+  display: block;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.ls-img.hidden { display: none; }
+
 @media (max-width: 700px) {
   .ls-grid { grid-template-columns: 1fr; }
 }
