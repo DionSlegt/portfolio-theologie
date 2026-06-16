@@ -545,6 +545,106 @@ h4, h5, h6, strong, b, .nav-logo,
 }
 .ls-block-header svg { width: 17px; height: 17px; flex-shrink: 0; }
 
+.ls-block-toggle {
+  cursor: pointer;
+  user-select: none;
+  justify-content: space-between;
+  border-bottom: none;
+}
+.ls-block-toggle:hover { background: var(--border); }
+.ls-block-toggle.open { border-bottom: 1px solid var(--border); }
+
+.ls-block-header-left {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+.ls-block-header-right {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.ls-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+.ls-block-toggle.open .ls-chevron { transform: rotate(180deg); }
+
+.ls-fullscreen-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: background var(--transition), color var(--transition);
+}
+.ls-fullscreen-btn:hover { background: var(--bg); color: var(--navy); }
+.ls-fullscreen-btn svg { width: 16px; height: 16px; }
+.ls-fullscreen-btn.hidden { display: none; }
+
+/* Fullscreen overlay */
+.ls-fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.ls-fs-overlay.hidden { display: none; }
+
+.ls-fs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .8rem 1.5rem;
+  background: var(--navy);
+  flex-shrink: 0;
+}
+.ls-fs-title {
+  font-family: 'SohneBreit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+}
+.ls-fs-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.ls-fs-close:hover { background: rgba(255,255,255,.3); }
+.ls-fs-close svg { width: 18px; height: 18px; stroke: #fff; }
+
+.ls-fs-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+.ls-fs-img {
+  flex: 1;
+  width: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+.ls-fs-iframe.hidden,
+.ls-fs-img.hidden { display: none; }
+
 #lsVideo {
   width: 100%;
   display: block;

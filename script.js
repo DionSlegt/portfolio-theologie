@@ -122,26 +122,24 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
       lsVideo.classList.remove('hidden');
     }
 
-    // Lesplan: automatisch laden als pad bekend is
+    // Lesplan: reset en dichtklappen
     const lsImg = document.getElementById('lsImg');
+    lsLesplanToggle.classList.remove('open');
+    lsLesplanBody.classList.add('hidden');
+    lsFullscreenBtn.classList.add('hidden');
+    lsIframe.src = ''; lsIframe.classList.add('hidden');
+    lsImg.src = '';    lsImg.classList.add('hidden');
+    currentLesplanSrc = '';
+    currentLesplanIsImg = false;
+
     if (lesplan) {
       const isImage = /\.(png|jpg|jpeg|webp)$/i.test(lesplan);
+      currentLesplanSrc   = isImage ? lesplan : lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
+      currentLesplanIsImg = isImage;
       lsUploadLabel.style.display = 'none';
-      if (isImage) {
-        lsIframe.classList.add('hidden');
-        lsIframe.src = '';
-        lsImg.src = lesplan;
-        lsImg.classList.remove('hidden');
-      } else {
-        lsImg.classList.add('hidden');
-        lsImg.src = '';
-        lsIframe.src = lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
-        lsIframe.classList.remove('hidden');
-      }
+      if (isImage) { lsImg.src = lesplan; lsImg.classList.remove('hidden'); }
+      else          { lsIframe.src = currentLesplanSrc; lsIframe.classList.remove('hidden'); }
     } else {
-      lsIframe.src = '';
-      lsIframe.classList.add('hidden');
-      if (lsImg) { lsImg.classList.add('hidden'); lsImg.src = ''; }
       lsUploadLabel.style.display = '';
       lsUploadText.textContent = 'Lesplan selecteren (PDF)';
     }
@@ -162,16 +160,68 @@ function closeLsScreen() {
 lsBack.addEventListener('click', closeLsScreen);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLsScreen(); });
 
+// Lesplan toggle
+const lsLesplanToggle = document.getElementById('lsLesplanToggle');
+const lsLesplanBody   = document.getElementById('lsLesplanBody');
+const lsFullscreenBtn = document.getElementById('lsFullscreenBtn');
+const lsFsOverlay     = document.getElementById('lsFsOverlay');
+const lsFsClose       = document.getElementById('lsFsClose');
+const lsFsIframe      = document.getElementById('lsFsIframe');
+const lsFsImg         = document.getElementById('lsFsImg');
+
+let currentLesplanSrc = '';
+let currentLesplanIsImg = false;
+
+lsLesplanToggle.addEventListener('click', () => {
+  const isOpen = lsLesplanToggle.classList.toggle('open');
+  lsLesplanBody.classList.toggle('hidden', !isOpen);
+  if (isOpen && currentLesplanSrc) lsFullscreenBtn.classList.remove('hidden');
+  else lsFullscreenBtn.classList.add('hidden');
+});
+
+lsFullscreenBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  lsFsOverlay.classList.remove('hidden');
+  if (currentLesplanIsImg) {
+    lsFsImg.src = currentLesplanSrc;
+    lsFsImg.classList.remove('hidden');
+    lsFsIframe.classList.add('hidden');
+  } else {
+    lsFsIframe.src = currentLesplanSrc;
+    lsFsIframe.classList.remove('hidden');
+    lsFsImg.classList.add('hidden');
+  }
+});
+
+lsFsClose.addEventListener('click', () => {
+  lsFsOverlay.classList.add('hidden');
+  lsFsIframe.src = '';
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (!lsFsOverlay.classList.contains('hidden')) {
+      lsFsOverlay.classList.add('hidden');
+      lsFsIframe.src = '';
+    } else {
+      closeLsScreen();
+    }
+  }
+});
+
 // Lesplan PDF inladen
 lsFileInput.addEventListener('change', () => {
   const file = lsFileInput.files[0];
   if (!file) return;
   const url = URL.createObjectURL(file);
+  currentLesplanSrc = url;
+  currentLesplanIsImg = false;
   lsUploadText.textContent = file.name;
   lsUploadLabel.style.borderStyle = 'solid';
   lsUploadLabel.style.borderColor = 'var(--blue)';
   lsIframe.src = url;
   lsIframe.classList.remove('hidden');
+  lsFullscreenBtn.classList.remove('hidden');
 });
 
 // ── SMOOTH SCROLL voor nav links ──
