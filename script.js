@@ -92,6 +92,7 @@ const lsBack       = document.getElementById('lsBack');
 const lsTitle      = document.getElementById('lsTitle');
 const lsNavTitle   = document.getElementById('lsNavTitle');
 const lsVideo      = document.getElementById('lsVideo');
+const lsYoutube    = document.getElementById('lsYoutube');
 const lsFileInput  = document.getElementById('lsFileInput');
 const lsUploadText = document.getElementById('lsUploadText');
 const lsIframe     = document.getElementById('lsIframe');
@@ -101,12 +102,25 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
     const title   = card.dataset.title;
-    const video   = card.dataset.video;
+    const video   = card.dataset.video   || '';
+    const youtube = card.dataset.youtube || '';
     const lesplan = card.dataset.lesplan || '';
 
     lsTitle.textContent    = title;
     lsNavTitle.textContent = title;
-    lsVideo.src            = video;
+
+    // Video: lokaal of YouTube
+    if (youtube) {
+      lsVideo.classList.add('hidden');
+      lsVideo.src = '';
+      lsYoutube.src = `https://www.youtube.com/embed/${youtube}?rel=0`;
+      lsYoutube.classList.remove('hidden');
+    } else {
+      lsYoutube.classList.add('hidden');
+      lsYoutube.src = '';
+      lsVideo.src = video;
+      lsVideo.classList.remove('hidden');
+    }
 
     // Lesplan: automatisch laden als pad bekend is
     if (lesplan) {
@@ -129,7 +143,8 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
 function closeLsScreen() {
   lsScreen.classList.remove('open');
   lsVideo.pause();
-  lsVideo.src = '';
+  lsVideo.src   = '';
+  lsYoutube.src = '';
 }
 
 lsBack.addEventListener('click', closeLsScreen);

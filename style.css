@@ -554,6 +554,15 @@ h4, h5, h6, strong, b, .nav-logo,
   object-fit: contain;
 }
 
+.ls-youtube {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+  display: block;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.ls-youtube.hidden { display: none; }
+
 .ls-lesplan { padding: 0; }
 
 .ls-upload {
