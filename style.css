@@ -665,6 +665,7 @@ h4, h5, h6, strong, b, .nav-logo,
 .ls-youtube.hidden { display: none; }
 
 .ls-lesplan { padding: 0; }
+.ls-lesplan.hidden { display: none; }
 
 .ls-upload {
   display: flex;
