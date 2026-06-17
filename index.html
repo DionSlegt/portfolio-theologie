@@ -50,7 +50,7 @@
     <!-- ── 1. FILMMATERIAAL ── -->
     <section id="filmmateriaal" class="section">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header narrow-header">
           <span class="section-number">01</span>
           <div>
             <h2 class="section-title">Onderwijssituaties</h2>
@@ -101,21 +101,28 @@
     <!-- ── 2. PROEVE VAN BEKWAAMHEID ── -->
     <section id="proeve" class="section alt-bg">
       <div class="container">
-        <div class="section-header">
+        <div class="section-header narrow-header">
           <span class="section-number">02</span>
           <div>
             <h2 class="section-title">Proeve van bekwaamheid</h2>
             <p class="section-desc">Filmmateriaal en lesplan van de proeve van bekwaamheid.</p>
           </div>
         </div>
-        <div class="card-grid three-col">
+        <div class="card-grid two-col-centered">
 
-          <div class="film-card" data-situatie="3" data-title="Proeve van bekwaamheid"
-               data-lesplan="Bestanden/Verantwoordingen/Hermeneutische_verantwoording_CHE_kapitalen.pdf"
-               data-doclabel="Hermeneutische verantwoording">
+          <div class="film-card full-width-card" data-situatie="3" data-title="Proeve van bekwaamheid"
+               data-lesplan="Bestanden/Verantwoordingen/Hermeneutische_verantwoording_CHE_Dion_Slegt.pdf"
+               data-doclabel="Hermeneutische verantwoording"
+               data-lesplan2="Bestanden/Verantwoordingen/Pedagogisch_didactisch_verantwoording_CHE_Dion_Slegt.pdf"
+               data-doclabel2="Pedagogisch-didactische verantwoording"
+               data-vidplaceholder="Bestanden/Assets/Thumbnials/thumbmnials-16x9---video-volgt.jpg">
             <div class="film-thumb">
-              <div class="film-thumb-placeholder">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <img src="Bestanden/Assets/Thumbnials/thumbmnials-16x9-proeve.jpg" alt="Proeve van bekwaamheid" />
+              <div class="film-thumb-overlay">
+                <button class="play-btn" aria-label="Open lessituatie">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.15)"/><polygon points="10,8 17,12 10,16" fill="white"/></svg>
+                </button>
+                <span class="bekijk-label">Open lessituatie</span>
               </div>
             </div>
             <div class="film-info">
@@ -161,38 +168,65 @@
             <span>Video-opname</span>
           </div>
           <video id="lsVideo" controls playsinline></video>
+          <img id="lsVidPlaceholder" class="ls-vid-placeholder hidden" alt="Video volgt" />
           <iframe id="lsYoutube" class="ls-youtube hidden" allowfullscreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             src=""></iframe>
         </div>
 
-        <!-- Lesplan blok -->
-        <div class="ls-block" id="lsLesplanBlock">
-          <div class="ls-block-header ls-block-toggle" id="lsLesplanToggle">
-            <div class="ls-block-header-left">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <span id="lsDocLabel">Lesplan</span>
+        <!-- Rechterkolom: lesplan + optioneel tweede document -->
+        <div class="ls-docs-col">
+
+          <!-- Lesplan / eerste document blok -->
+          <div class="ls-block" id="lsLesplanBlock">
+            <div class="ls-block-header ls-block-toggle" id="lsLesplanToggle">
+              <div class="ls-block-header-left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span id="lsDocLabel">Lesplan</span>
+              </div>
+              <div class="ls-block-header-right">
+                <button class="ls-fullscreen-btn hidden" id="lsFullscreenBtn" title="Volledig scherm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+                <svg class="ls-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
-            <div class="ls-block-header-right">
-              <button class="ls-fullscreen-btn hidden" id="lsFullscreenBtn" title="Volledig scherm">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
-              </button>
-              <svg class="ls-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="ls-lesplan hidden" id="lsLesplanBody">
+              <label class="ls-upload" id="lsUploadLabel">
+                <input type="file" id="lsFileInput" accept=".pdf" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span id="lsUploadText">Lesplan selecteren (PDF)</span>
+              </label>
+              <div class="ls-lesplan-wrap">
+                <iframe id="lsIframe" class="ls-iframe hidden" title="Lesplan"></iframe>
+                <img id="lsImg" class="ls-img hidden" alt="Lesplan" />
+                <div id="lsClickOverlay" class="ls-click-overlay hidden"></div>
+              </div>
             </div>
           </div>
-          <div class="ls-lesplan hidden" id="lsLesplanBody">
-            <label class="ls-upload" id="lsUploadLabel">
-              <input type="file" id="lsFileInput" accept=".pdf" />
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              <span id="lsUploadText">Lesplan selecteren (PDF)</span>
-            </label>
-            <div class="ls-lesplan-wrap">
-              <iframe id="lsIframe" class="ls-iframe hidden" title="Lesplan"></iframe>
-              <img id="lsImg" class="ls-img hidden" alt="Lesplan" />
-              <div id="lsClickOverlay" class="ls-click-overlay hidden"></div>
+
+          <!-- Tweede document blok (alleen zichtbaar als data-lesplan2 aanwezig) -->
+          <div class="ls-block hidden" id="lsDoc2Block">
+            <div class="ls-block-header ls-block-toggle" id="lsDoc2Toggle">
+              <div class="ls-block-header-left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span id="lsDoc2Label">Document 2</span>
+              </div>
+              <div class="ls-block-header-right">
+                <button class="ls-fullscreen-btn hidden" id="lsFullscreenBtn2" title="Volledig scherm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </button>
+                <svg class="ls-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="ls-lesplan hidden" id="lsDoc2Body">
+              <div class="ls-lesplan-wrap">
+                <iframe id="lsIframe2" class="ls-iframe hidden" title="Document 2"></iframe>
+              </div>
             </div>
           </div>
-        </div>
+
+        </div> <!-- einde ls-docs-col -->
 
         <!-- Fullscreen overlay -->
         <div class="ls-fs-overlay hidden" id="lsFsOverlay">

@@ -98,33 +98,58 @@ const lsUploadText = document.getElementById('lsUploadText');
 const lsIframe       = document.getElementById('lsIframe');
 const lsClickOverlay = document.getElementById('lsClickOverlay');
 const lsUploadLabel  = document.getElementById('lsUploadLabel');
-const lsDocLabel     = document.getElementById('lsDocLabel');
-const lsFsTitle      = document.getElementById('lsFsTitle');
+const lsDocLabel        = document.getElementById('lsDocLabel');
+const lsFsTitle         = document.getElementById('lsFsTitle');
+const lsVidPlaceholder  = document.getElementById('lsVidPlaceholder');
+const lsDoc2Block       = document.getElementById('lsDoc2Block');
+const lsDoc2Toggle      = document.getElementById('lsDoc2Toggle');
+const lsDoc2Body        = document.getElementById('lsDoc2Body');
+const lsDoc2Label       = document.getElementById('lsDoc2Label');
+const lsIframe2         = document.getElementById('lsIframe2');
+const lsFullscreenBtn2  = document.getElementById('lsFullscreenBtn2');
+let currentDoc2Src = '';
 
 document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
-    const title    = card.dataset.title;
-    const video    = card.dataset.video    || '';
-    const youtube  = card.dataset.youtube  || '';
-    const lesplan  = card.dataset.lesplan  || '';
-    const doclabel = card.dataset.doclabel || 'Lesplan';
+    const title          = card.dataset.title;
+    const video          = card.dataset.video          || '';
+    const youtube        = card.dataset.youtube        || '';
+    const lesplan        = card.dataset.lesplan        || '';
+    const doclabel       = card.dataset.doclabel       || 'Lesplan';
+    const vidplaceholder = card.dataset.vidplaceholder || '';
+    const lesplan2       = card.dataset.lesplan2       || '';
+    const doclabel2      = card.dataset.doclabel2      || '';
 
     lsTitle.textContent    = title;
     lsNavTitle.textContent = title;
     lsDocLabel.textContent = doclabel;
     lsFsTitle.textContent  = doclabel;
 
-    // Video: lokaal of YouTube
+    // Video: lokaal, YouTube, of placeholder afbeelding
+    lsVidPlaceholder.classList.add('hidden');
+    lsVidPlaceholder.src = '';
     if (youtube) {
       lsVideo.classList.add('hidden');
       lsVideo.src = '';
       lsYoutube.src = `https://www.youtube.com/embed/${youtube}?rel=0`;
       lsYoutube.classList.remove('hidden');
-    } else {
+    } else if (video) {
       lsYoutube.classList.add('hidden');
       lsYoutube.src = '';
       lsVideo.src = video;
+      lsVideo.classList.remove('hidden');
+    } else if (vidplaceholder) {
+      lsYoutube.classList.add('hidden');
+      lsYoutube.src = '';
+      lsVideo.classList.add('hidden');
+      lsVideo.src = '';
+      lsVidPlaceholder.src = vidplaceholder;
+      lsVidPlaceholder.classList.remove('hidden');
+    } else {
+      lsYoutube.classList.add('hidden');
+      lsYoutube.src = '';
+      lsVideo.src = '';
       lsVideo.classList.remove('hidden');
     }
 
@@ -141,7 +166,7 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
 
     if (lesplan) {
       const isImage = /\.(png|jpg|jpeg|webp)$/i.test(lesplan);
-      currentLesplanSrc   = isImage ? lesplan : lesplan + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
+      currentLesplanSrc   = isImage ? lesplan : lesplan + '#toolbar=0&navpanes=0&scrollbar=1';
       currentLesplanIsImg = isImage;
       lsUploadLabel.style.display = 'none';
       if (isImage) { lsImg.src = lesplan; lsImg.classList.remove('hidden'); }
@@ -150,6 +175,19 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
     } else {
       lsUploadLabel.style.display = '';
       lsUploadText.textContent = 'Lesplan selecteren (PDF)';
+    }
+
+    // Tweede document blok
+    lsDoc2Block.classList.add('hidden');
+    lsDoc2Toggle.classList.remove('open');
+    lsDoc2Body.classList.add('hidden');
+    lsIframe2.src = ''; lsIframe2.classList.add('hidden');
+    lsFullscreenBtn2.classList.add('hidden');
+    currentDoc2Src = '';
+    if (lesplan2) {
+      lsDoc2Label.textContent = doclabel2;
+      currentDoc2Src = lesplan2 + '#toolbar=0&navpanes=0&scrollbar=1';
+      lsDoc2Block.classList.remove('hidden');
     }
 
     lsScreen.classList.add('open');
@@ -179,11 +217,25 @@ const lsFsImg         = document.getElementById('lsFsImg');
 let currentLesplanSrc = '';
 let currentLesplanIsImg = false;
 
+function closeDoc1() {
+  lsLesplanToggle.classList.remove('open');
+  lsLesplanBody.classList.add('hidden');
+  lsFullscreenBtn.classList.add('hidden');
+}
+
+function openDoc1() {
+  lsLesplanToggle.classList.add('open');
+  lsLesplanBody.classList.remove('hidden');
+  if (currentLesplanSrc) lsFullscreenBtn.classList.remove('hidden');
+}
+
 lsLesplanToggle.addEventListener('click', () => {
-  const isOpen = lsLesplanToggle.classList.toggle('open');
-  lsLesplanBody.classList.toggle('hidden', !isOpen);
-  if (isOpen && currentLesplanSrc) lsFullscreenBtn.classList.remove('hidden');
-  else lsFullscreenBtn.classList.add('hidden');
+  const isOpen = lsLesplanToggle.classList.contains('open');
+  if (isOpen) {
+    closeDoc1();
+  } else {
+    openDoc1();
+  }
 });
 
 function openLesplanFullscreen() {
@@ -195,7 +247,7 @@ function openLesplanFullscreen() {
     lsFsIframe.classList.add('hidden');
   } else {
     const base = currentLesplanSrc.split('#')[0];
-    lsFsIframe.src = base + '#toolbar=0&navpanes=0&scrollbar=1&view=Fit';
+    lsFsIframe.src = base + '#toolbar=0&navpanes=0&scrollbar=1';
     lsFsIframe.classList.remove('hidden');
     lsFsImg.classList.add('hidden');
   }
@@ -206,10 +258,35 @@ lsFullscreenBtn.addEventListener('click', (e) => {
   openLesplanFullscreen();
 });
 
+// Tweede document blok
+lsDoc2Toggle.addEventListener('click', () => {
+  const isOpen = lsDoc2Toggle.classList.toggle('open');
+  lsDoc2Body.classList.toggle('hidden', !isOpen);
+  if (isOpen && currentDoc2Src) {
+    lsIframe2.src = currentDoc2Src;
+    lsIframe2.classList.remove('hidden');
+    lsFullscreenBtn2.classList.remove('hidden');
+  } else {
+    lsFullscreenBtn2.classList.add('hidden');
+  }
+});
+
+lsFullscreenBtn2.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!currentDoc2Src) return;
+  lsFsTitle.textContent = lsDoc2Label.textContent;
+  lsFsOverlay.classList.remove('hidden');
+  const base = currentDoc2Src.split('#')[0];
+  lsFsIframe.src = base + '#toolbar=0&navpanes=0&scrollbar=1';
+  lsFsIframe.classList.remove('hidden');
+  lsFsImg.classList.add('hidden');
+});
+
 lsClickOverlay.addEventListener('click', (e) => {
   e.stopPropagation();
   openLesplanFullscreen();
 });
+
 
 lsFsClose.addEventListener('click', () => {
   lsFsOverlay.classList.add('hidden');
