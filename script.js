@@ -95,19 +95,25 @@ const lsVideo      = document.getElementById('lsVideo');
 const lsYoutube    = document.getElementById('lsYoutube');
 const lsFileInput  = document.getElementById('lsFileInput');
 const lsUploadText = document.getElementById('lsUploadText');
-const lsIframe     = document.getElementById('lsIframe');
-const lsUploadLabel = document.getElementById('lsUploadLabel');
+const lsIframe       = document.getElementById('lsIframe');
+const lsClickOverlay = document.getElementById('lsClickOverlay');
+const lsUploadLabel  = document.getElementById('lsUploadLabel');
+const lsDocLabel     = document.getElementById('lsDocLabel');
+const lsFsTitle      = document.getElementById('lsFsTitle');
 
 document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
   card.style.cursor = 'pointer';
   card.addEventListener('click', () => {
-    const title   = card.dataset.title;
-    const video   = card.dataset.video   || '';
-    const youtube = card.dataset.youtube || '';
-    const lesplan = card.dataset.lesplan || '';
+    const title    = card.dataset.title;
+    const video    = card.dataset.video    || '';
+    const youtube  = card.dataset.youtube  || '';
+    const lesplan  = card.dataset.lesplan  || '';
+    const doclabel = card.dataset.doclabel || 'Lesplan';
 
     lsTitle.textContent    = title;
     lsNavTitle.textContent = title;
+    lsDocLabel.textContent = doclabel;
+    lsFsTitle.textContent  = doclabel;
 
     // Video: lokaal of YouTube
     if (youtube) {
@@ -129,6 +135,7 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
     lsFullscreenBtn.classList.add('hidden');
     lsIframe.src = ''; lsIframe.classList.add('hidden');
     lsImg.src = '';    lsImg.classList.add('hidden');
+    lsClickOverlay.classList.add('hidden');
     currentLesplanSrc = '';
     currentLesplanIsImg = false;
 
@@ -139,6 +146,7 @@ document.querySelectorAll('.film-card[data-situatie]').forEach(card => {
       lsUploadLabel.style.display = 'none';
       if (isImage) { lsImg.src = lesplan; lsImg.classList.remove('hidden'); }
       else          { lsIframe.src = currentLesplanSrc; lsIframe.classList.remove('hidden'); }
+      lsClickOverlay.classList.remove('hidden');
     } else {
       lsUploadLabel.style.display = '';
       lsUploadText.textContent = 'Lesplan selecteren (PDF)';
@@ -158,7 +166,6 @@ function closeLsScreen() {
 }
 
 lsBack.addEventListener('click', closeLsScreen);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLsScreen(); });
 
 // Lesplan toggle
 const lsLesplanToggle = document.getElementById('lsLesplanToggle');
@@ -179,18 +186,29 @@ lsLesplanToggle.addEventListener('click', () => {
   else lsFullscreenBtn.classList.add('hidden');
 });
 
-lsFullscreenBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
+function openLesplanFullscreen() {
+  if (!currentLesplanSrc) return;
   lsFsOverlay.classList.remove('hidden');
   if (currentLesplanIsImg) {
     lsFsImg.src = currentLesplanSrc;
     lsFsImg.classList.remove('hidden');
     lsFsIframe.classList.add('hidden');
   } else {
-    lsFsIframe.src = currentLesplanSrc;
+    const base = currentLesplanSrc.split('#')[0];
+    lsFsIframe.src = base + '#toolbar=0&navpanes=0&scrollbar=1&view=Fit';
     lsFsIframe.classList.remove('hidden');
     lsFsImg.classList.add('hidden');
   }
+}
+
+lsFullscreenBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openLesplanFullscreen();
+});
+
+lsClickOverlay.addEventListener('click', (e) => {
+  e.stopPropagation();
+  openLesplanFullscreen();
 });
 
 lsFsClose.addEventListener('click', () => {
@@ -199,13 +217,10 @@ lsFsClose.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (!lsFsOverlay.classList.contains('hidden')) {
-      lsFsOverlay.classList.add('hidden');
-      lsFsIframe.src = '';
-    } else {
-      closeLsScreen();
-    }
+  if (e.key !== 'Escape') return;
+  if (!lsFsOverlay.classList.contains('hidden')) {
+    lsFsOverlay.classList.add('hidden');
+    lsFsIframe.src = '';
   }
 });
 

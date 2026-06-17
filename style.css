@@ -336,6 +336,7 @@ h4, h5, h6, strong, b, .nav-logo,
 /* ── FILM CARDS ── */
 .card-grid { display: grid; gap: 1.5rem; }
 .three-col { grid-template-columns: repeat(3, 1fr); }
+.two-col-centered { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin-inline: auto; }
 
 .film-card {
   background: var(--white);
@@ -413,6 +414,17 @@ h4, h5, h6, strong, b, .nav-logo,
   transition: transform .4s ease;
 }
 .film-thumb:hover img { transform: scale(1.04); }
+
+.film-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+.film-thumb-placeholder svg { width: 48px; height: 48px; }
 
 .film-thumb-overlay {
   position: absolute;
@@ -635,6 +647,7 @@ h4, h5, h6, strong, b, .nav-logo,
   flex: 1;
   width: 100%;
   border: none;
+  min-height: 0;
 }
 .ls-fs-img {
   flex: 1;
@@ -690,20 +703,35 @@ h4, h5, h6, strong, b, .nav-logo,
 
 .ls-iframe {
   width: 100%;
-  height: calc(100vh - 200px);
-  min-height: 500px;
+  aspect-ratio: 210 / 297;
   border: none;
   display: block;
   border-radius: 0 0 var(--radius) var(--radius);
+  cursor: zoom-in;
 }
+
 .ls-iframe.hidden { display: none; }
 
 .ls-img {
   width: 100%;
   display: block;
   border-radius: 0 0 var(--radius) var(--radius);
+  cursor: zoom-in;
 }
 .ls-img.hidden { display: none; }
+
+.ls-lesplan-wrap {
+  position: relative;
+}
+
+.ls-click-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: zoom-in;
+  z-index: 2;
+}
+
+.ls-click-overlay.hidden { display: none; }
 
 @media (max-width: 700px) {
   .ls-grid { grid-template-columns: 1fr; }
