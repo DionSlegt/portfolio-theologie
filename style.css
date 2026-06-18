@@ -546,6 +546,8 @@ h4, h5, h6, strong, b, .nav-logo,
   .ls-grid { grid-template-columns: 1fr; }
 }
 
+.ls-block.hidden { display: none; }
+
 .ls-block {
   background: var(--white);
   border: 1px solid var(--border);
